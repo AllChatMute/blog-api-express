@@ -1,7 +1,25 @@
 const posts = require("../data/postsData");
 
 function getPosts(req, res) {
-  res.send(posts);
+  if (req.query.term) {
+    const filteredPosts = posts.filter((item) => {
+      if (
+        item.title.toLowerCase().includes(req.query.term.toLowerCase()) ||
+        item.content.toLowerCase().includes(req.query.term.toLowerCase()) ||
+        item.category.toLowerCase().includes(req.query.term.toLowerCase()) ||
+        item.tags.indexOf((term) =>
+          term.toLowerCase().includes(req.query.term.toLowerCase())
+        ) !== -1
+      ) {
+        return true;
+      }
+      return false;
+    });
+
+    res.json(filteredPosts);
+  } else {
+    res.json(posts);
+  }
 }
 
 function getSinglePost(req, res) {

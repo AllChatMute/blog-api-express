@@ -20,4 +20,19 @@ function createPost(req, res) {
   res.status(201).send("Post created");
 }
 
-module.exports = { getPosts, getSinglePost, createPost };
+function updatePost(req, res) {
+  const { id } = req.params;
+  const index = posts.findIndex(
+    (item) => item === posts.find((item) => item.id === +id)
+  );
+
+  if (index !== -1) {
+    req.body.id = +id;
+    posts[index] = req.body;
+    res.send("Updated");
+  } else {
+    res.status(404).send("Not Found");
+  }
+}
+
+module.exports = { getPosts, getSinglePost, createPost, updatePost };

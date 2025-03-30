@@ -35,4 +35,23 @@ function updatePost(req, res) {
   }
 }
 
-module.exports = { getPosts, getSinglePost, createPost, updatePost };
+function deletePost(req, res) {
+  const { id } = req.params;
+  const index = posts.findIndex(
+    (item) => item === posts.find((item) => item.id === +id)
+  );
+  if (index !== -1) {
+    posts.splice(index, 1);
+    res.status(204).send("No Content");
+  } else {
+    res.status(404).send("Not Found");
+  }
+}
+
+module.exports = {
+  getPosts,
+  getSinglePost,
+  createPost,
+  updatePost,
+  deletePost,
+};
